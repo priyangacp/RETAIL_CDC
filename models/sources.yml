@@ -1,0 +1,18 @@
+version: 2
+
+sources:
+  - name: bronze
+    database: RDL_TMS_SVT
+    schema: CDC
+    config:
+      freshness:
+        warn_after:
+          count: 2
+          period: hour
+        error_after:
+          count: 6
+          period: hour
+      loaded_at_field: LOAD_TIMESTAMP_UTC
+    tables:
+      - name: shipment_accessorial_queue
+      - name: orders_queue

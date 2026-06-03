@@ -1,0 +1,32 @@
+name: 'retail_cdc'
+version: '1.0.0'
+config-version: 2
+
+profile: 'retail_cdc'
+
+model-paths:    ["models"]
+analysis-paths: ["analyses"]
+test-paths:     ["tests"]
+seed-paths:     ["seeds"]
+macro-paths:    ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  # Sentinel default — replay mode activates automatically when
+  # replay_watermark is passed with a real date via --vars.
+  # is_replay is never required explicitly.
+  replay_watermark: '1900-01-01 00:00:00'
+  replay_end:       '9999-12-31 23:59:59'
+  queue_tables:
+    - shipment_accessorial_queue
+    - orders_queue
+
+models:
+  retail_cdc:
+    silver:
+      +materialized: incremental
